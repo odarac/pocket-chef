@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Chef</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Pocket Chef</h1>
+        <i>Your smart kitchen assistant</i>
+    </header>
+
+    <main>
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <input type="text" id="ingredient-input" placeholder="Enter an ingredient...">
+            <button id="search-btn">Search</button>
+        </div>
+
+        <!-- 盘子显示区域 -->
+        <div class="plate-container">
+            <img id="plate-img" src="https://upload.wikimedia.org/wikipedia/commons/4/45/Plain_white_dish.jpg" alt="Plate">
+            <img id="ingredient-img" class="ingredient" alt="">
+        </div>
+
+        <!-- 食谱列表 -->
+        <section class="recipes">
+            <div id="recipes-list" class="recipes-list"></div>
+
+            <!-- 翻页按钮 -->
+            <div class="pagination">
+                <button id="prev-btn">Prev</button>
+                <button id="next-btn">Next</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
