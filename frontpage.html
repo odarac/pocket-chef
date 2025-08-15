@@ -9,20 +9,21 @@
 <body>
     <header>
         <h1>Pocket Chef</h1>
-        <i>Your smart kitchen assistant</i>
+        <p class="subtitle">Your smart kitchen assistant</p>
     </header>
 
-    <main>
-        <!-- search -->
-        <div class="search-container">
-            <input type="text" id="ingredient-input" placeholder="Enter an ingredient...">
-            <button id="search-btn">Search</button>
+    <main class="main-content">
+        <!-- input -->
+        <div class="input-container">
+            <input type="text" id="ingredient-input" placeholder="Type your ingredient...">
+            <button id="add-btn">Add</button>
+            <button id="generate-btn">Generate</button>
         </div>
 
         <!-- plate -->
-        <div class="plate-container">
-            <img id="plate-img" src="https://upload.wikimedia.org/wikipedia/commons/4/45/Plain_white_dish.jpg" alt="Plate">
-            <img id="ingredient-img" class="ingredient" alt="">
+        <div class="plate-container" id="plate">
+            <img id="plate-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Plain_white_dish.jpg/800px-Plain_white_dish.jpg" alt="Plate">
+            <div id="ingredient-list" class="ingredient-list"></div>
         </div>
 
         <!-- recipe -->
@@ -30,7 +31,7 @@
             <div id="recipes-list" class="recipes-list"></div>
 
             <!-- turn the page button -->
-            <div class="pagination">
+            <div id="pagination" class="pagination hidden">
                 <button id="prev-btn">Prev</button>
                 <button id="next-btn">Next</button>
             </div>
