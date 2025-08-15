@@ -74,6 +74,12 @@ button:hover {
     animation: pop 0.3s ease-out;
 }
 
+/* FOOD JUMPING animation */
+@keyframes bounce {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+    50% { transform: translate(-50%, -50%) translateY(-15px); }
+}
+
 @keyframes pop {
     from { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
     to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
@@ -91,6 +97,11 @@ button:hover {
     overflow: hidden;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding-bottom: 1rem;
+}
+
+.recipe-card:hover {
+    transform: scale(1.03) rotate(-1deg);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
 }
 
 .recipe-card img {
