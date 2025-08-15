@@ -1,7 +1,7 @@
 let currentPage = 1;
 let currentIngredient = "";
 
-// 模拟 API 数据（之后可以换成 Spoonacular API）
+// change into api later
 const sampleRecipes = [
     { title: "Tomato Pasta", img: "https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg", link: "#" },
     { title: "Chicken Salad", img: "https://www.themealdb.com/images/media/meals/1548772327.jpg", link: "#" },
@@ -17,11 +17,11 @@ document.getElementById("search-btn").addEventListener("click", () => {
         return;
     }
 
-    // 更新盘子里的食材（这里用一张示例图）
+    // update the ingredients in the plate
     document.getElementById("ingredient-img").src =
         "https://via.placeholder.com/100?text=" + encodeURIComponent(currentIngredient);
 
-    // 显示第一页的食谱
+    // show the first page recipe
     currentPage = 1;
     displayRecipes();
 });
