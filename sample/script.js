@@ -182,7 +182,7 @@ async function fetchRecipes() {
 
   } catch (err) {
     console.error(err);
-    resultsDiv.innerHTML = `<p">Error fetching recipes</p>`;
+    resultsDiv.innerHTML = `<p>Error fetching recipes</p>`;
   }
 }
 
