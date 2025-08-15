@@ -243,6 +243,7 @@ function displayRecipes() {
     const list = document.getElementById("recipes-list");
     list.innerHTML = "";
 
+<<<<<<< HEAD
     const start = (currentPage - 1) * 2;
     const end = start + 2;
     const recipesToShow = recipes.slice(start, end);
@@ -259,4 +260,41 @@ function displayRecipes() {
     });
 
     document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(recipes.length / 2)}`;
+=======
+  pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
 }
+
+/* ---- (Optional) API hook skeleton ----
+   Replace with your provider (e.g., Spoonacular, TheMealDB).
+   Keep the interface the same: return array of { title, img, link }.
+*/
+// async function fetchRecipes(ings){
+//   // Example (pseudo):
+//   // const url = `/api/recipes?ingredients=${encodeURIComponent(ings.join(','))}`;
+//   // const res = await fetch(url);
+//   // const data = await res.json();
+//   // return data.results.map(x => ({ title:x.title, img:x.image, link:x.sourceUrl }));
+//   return sampleRecipes;
+// }
+
+async function fetchRecipes() {
+  const ingredients = document.getElementById("ingredient-input").value.trim();
+  const resultsDiv = document.getElementById("recipes");
+
+  if (ingredients.length === 0) {
+    resultsDiv.innerHTML = "";
+    return;
+  }
+
+  try {
+    const res = await fetch(`/recipes?ingredients=${encodeURIComponent(ingredients)}`);
+    const recipes = await res.json();
+    displayRecipes(recipes);
+
+  } catch (err) {
+    console.error(err);
+    resultsDiv.innerHTML = `<p>Error fetching recipes</p>`;
+  }
+>>>>>>> 3dba6bbae746da2b4b9fe3f781c932f695f41952
+}
+
