@@ -308,46 +308,92 @@ async function fetchRecipes() {
 
 
 
-// =======================================================
-// ===== New: Login Modal (Modal) Control Logic =====
-// =======================================================
+// // =======================================================
+// // ===== New: Login Modal (Modal) Control Logic =====
+// // =======================================================
 
-// First, get the HTML elements that need to be manipulated
-const loginModal = document.getElementById('login-modal'); // The entire modal (gray background)
-const loginTriggerBtn = document.getElementById('login-trigger-btn'); // The "Login" button in the navigation bar
-const closeModalBtn = document.getElementById('close-modal-btn'); // The close button (×) in the top-right of the modal
+// // First, get the HTML elements that need to be manipulated
+// const loginModal = document.getElementById('login-modal'); // The entire modal (gray background)
+// const loginTriggerBtn = document.getElementById('login-trigger-btn'); // The "Login" button in the navigation bar
+// const closeModalBtn = document.getElementById('close-modal-btn'); // The close button (×) in the top-right of the modal
 
-// --- Function: Open Modal ---
-// Define a function to show the modal
-function openModal() {
-  // Remove the 'hidden' class from the modal; this class is typically set to display: none; in CSS
-  loginModal.classList.remove('hidden'); 
-}
+// // --- Function: Open Modal ---
+// // Define a function to show the modal
+// function openModal() {
+//   // Remove the 'hidden' class from the modal; this class is typically set to display: none; in CSS
+//   loginModal.classList.remove('hidden'); 
+// }
 
-// --- Function: Close Modal ---
-// Define a function to hide the modal
-function closeModal() {
-  // Add the 'hidden' class to the modal to hide it
-  loginModal.classList.add('hidden');
-}
+// // --- Function: Close Modal ---
+// // Define a function to hide the modal
+// function closeModal() {
+//   // Add the 'hidden' class to the modal to hide it
+//   loginModal.classList.add('hidden');
+// }
 
-// --- Bind Event Listeners ---
-// 1. When the user clicks the "Login" button in the navigation bar, call the openModal function
-if (loginTriggerBtn) {
-  loginTriggerBtn.addEventListener('click', openModal);
-}
+// // --- Bind Event Listeners ---
+// // 1. When the user clicks the "Login" button in the navigation bar, call the openModal function
+// if (loginTriggerBtn) {
+//   loginTriggerBtn.addEventListener('click', openModal);
+// }
 
-// 2. When the user clicks the close button (×) in the modal, call the closeModal function
-if (closeModalBtn) {
-  closeModalBtn.addEventListener('click', closeModal);
-}
+// // 2. When the user clicks the close button (×) in the modal, call the closeModal function
+// if (closeModalBtn) {
+//   closeModalBtn.addEventListener('click', closeModal);
+// }
 
-// 3. (Optional but recommended) When the user clicks on the gray background area of the modal, also close the modal
-if (loginModal) {
-  loginModal.addEventListener('click', (event) => {
-    // Check if the target of the click event is the gray background itself (and not the form inside)
-    if (event.target === loginModal) {
-      closeModal();
-    }
-  });
-}
+// // 3. (Optional but recommended) When the user clicks on the gray background area of the modal, also close the modal
+// if (loginModal) {
+//   loginModal.addEventListener('click', (event) => {
+//     // Check if the target of the click event is the gray background itself (and not the form inside)
+//     if (event.target === loginModal) {
+//       closeModal();
+//     }
+//   });
+// }
+
+document.addEventListener("DOMContentLoaded", () => {
+  // =======================================================
+  // ===== New: Login Modal (Modal) Control Logic =====
+  // =======================================================
+
+  // First, get the HTML elements that need to be manipulated
+  const loginModal = document.getElementById('login-modal'); // The entire modal (gray background)
+  const loginTriggerBtn = document.getElementById('login-trigger-btn'); // The "Login" button in the navigation bar
+  const closeModalBtn = document.getElementById('close-modal-btn'); // The close button (×) in the top-right of the modal
+
+  // --- Function: Open Modal ---
+  // Define a function to show the modal
+  function openModal() {
+    // Remove the 'hidden' class from the modal; this class is typically set to display: none; in CSS
+    loginModal.classList.remove('hidden'); 
+  }
+
+  // --- Function: Close Modal ---
+  // Define a function to hide the modal
+  function closeModal() {
+    // Add the 'hidden' class to the modal to hide it
+    loginModal.classList.add('hidden');
+  }
+
+  // --- Bind Event Listeners ---
+  // 1. When the user clicks the "Login" button in the navigation bar, call the openModal function
+  if (loginTriggerBtn) {
+    loginTriggerBtn.addEventListener('click', openModal);
+  }
+
+  // 2. When the user clicks the close button (×) in the modal, call the closeModal function
+  if (closeModalBtn) {
+    closeModalBtn.addEventListener('click', closeModal);
+  }
+
+  // 3. (Optional but recommended) When the user clicks on the gray background area of the modal, also close the modal
+  if (loginModal) {
+    loginModal.addEventListener('click', (event) => {
+      // Check if the target of the click event is the gray background itself (and not the form inside)
+      if (event.target === loginModal) {
+        closeModal();
+      }
+    });
+  }
+});
