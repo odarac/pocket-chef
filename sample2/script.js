@@ -308,31 +308,31 @@ async function fetchRecipes() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  // ===== New: Guide Modal (Modal) Control Logic =====
+  // ===== New: Login Modal (Modal) Control Logic =====
 
   // First, get the HTML elements that need to be manipulated
-  const guideModal = document.getElementById('guide-modal'); // The entire modal (gray background)
-  const guideTriggerBtn = document.getElementById('guide-trigger-btn'); // The "Guide" button in the navigation bar
+  const loginModal = document.getElementById('login-modal'); // The entire modal (gray background)
+  const loginTriggerBtn = document.getElementById('guide-trigger-btn'); // The "Login" button in the navigation bar
   const closeModalBtn = document.getElementById('close-modal-btn'); // The close button (×) in the top-right of the modal
 
   // --- Function: Open Modal ---
   // Define a function to show the modal
   function openModal() {
     // Remove the 'hidden' class from the modal; this class is typically set to display: none; in CSS
-    guideModal.classList.remove('hidden'); 
+    loginModal.classList.remove('hidden'); 
   }
 
   // --- Function: Close Modal ---
   // Define a function to hide the modal
   function closeModal() {
     // Add the 'hidden' class to the modal to hide it
-    guideModal.classList.add('hidden');
+    loginModal.classList.add('hidden');
   }
 
   // --- Bind Event Listeners ---
-  // 1. When the user clicks the "Guide" button in the navigation bar, call the openModal function
-  if (guideTriggerBtn) {
-    guideTriggerBtn.addEventListener('click', openModal);
+  // 1. When the user clicks the "Login" button in the navigation bar, call the openModal function
+  if (loginTriggerBtn) {
+    loginTriggerBtn.addEventListener('click', openModal);
   }
 
   // 2. When the user clicks the close button (×) in the modal, call the closeModal function
@@ -341,10 +341,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 3. (Optional but recommended) When the user clicks on the gray background area of the modal, also close the modal
-  if (guideModal) {
-    guideModal.addEventListener('click', (event) => {
+  if (loginModal) {
+    loginModal.addEventListener('click', (event) => {
       // Check if the target of the click event is the gray background itself (and not the form inside)
-      if (event.target === guideModal) {
+      if (event.target === loginModal) {
         closeModal();
       }
     });
@@ -468,3 +468,30 @@ document.addEventListener('click', function(event) {
       // 这里你可以把 selectedAllergens 传递给搜索逻辑
       displayRecipes(); // 重新刷新，应用过滤
     });
+
+
+
+    window.addEventListener('load', function() {
+    setTimeout(function() {
+        const loading = document.getElementById('loading');
+        loading.style.opacity = '0';
+        
+        setTimeout(() => {
+            loading.classList.add('hidden');
+        }, 600); // 匹配CSS过渡时间
+    }, 1200); // 最小显示时间
+});
+
+
+const foods = ["🍎","🥑","🍔","🍕","🍣","🍤","🥗","🥖","🍜","🍩","🍓","🥕","🥟","🧁","🍇","🍪"];
+const foodBg = document.getElementById("food-bg");
+
+// 随机摆放食物背景
+for (let i=0; i<30; i++) {
+  const f = document.createElement("div");
+  f.className = "food-item";
+  f.textContent = foods[Math.floor(Math.random()*foods.length)];
+  f.style.left = Math.random()*100 + "vw";
+  f.style.top = Math.random()*100 + "vh";
+  foodBg.appendChild(f);
+}

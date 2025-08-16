@@ -111,6 +111,8 @@
   .recipes-list{
     display:grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+
     gap:16px;
   }
   .recipe-card{
@@ -575,5 +577,144 @@
 #confirmBtn:hover {
   background: #c68d4c;
 }
+
+
+
+/* animations */
+/* 加载文字动画 */
+#loading p {
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-top: 1.5rem;
+    font-weight: bold;
+    position: relative;
+}
+
+#loading p:after {
+    content: "...";
+    position: absolute;
+    animation: dots 1.5s infinite steps(4);
+}
+
+@keyframes dots {
+    0% { content: ""; }
+    25% { content: "."; }
+    50% { content: ".."; }
+    75% { content: "..."; }
+}
+
+
+/* 主内容入场动画 */
+.container {
+    animation: contentFadeIn 1s ease-out forwards;
+    opacity: 0;
+    animation-delay: 0.8s; /* 等待加载动画完成 */
+}
+
+@keyframes contentFadeIn {
+    to { opacity: 1; }
+}
+
+/* 头部特殊动画 */
+.site-header {
+    animation: headerSlideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    transform: translateY(-100%);
+}
+
+@keyframes headerSlideDown {
+    to { transform: translateY(0); }
+}
+
+/* 按钮和卡片元素动画 */
+.btn, .recipe-card, .plate {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* 交错动画延迟 */
+.btn { animation-delay: 1s; }
+.recipe-card { 
+    animation-delay: 1.2s; 
+    animation-duration: 0.8s;
+}
+.plate { 
+    animation-delay: 1.4s;
+    animation-name: plateAppear;
+}
+
+@keyframes plateAppear {
+    from { 
+        opacity: 0;
+        transform: scale(0.9) rotate(-5deg);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filter-knife {
+    animation: knifeSlideIn 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    transform: translateX(-100px);
+    opacity: 0;
+    animation-delay: 1.6s;
+}
+
+@keyframes knifeSlideIn {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.filter-panel {
+    animation-delay: 2s !important;
+}
+
+
+
+/* 食物背景容器 */
+.food-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.food-item {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.8;
+  user-select: none;
+  animation: floatAnim 6s ease-in-out infinite;
+}
+
+.food-item:hover {
+  transform: scale(1.4) rotate(10deg);
+}
+
+/* 漂浮动画 */
+@keyframes floatAnim {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(10deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+
+
+
+
+
+
 
 
