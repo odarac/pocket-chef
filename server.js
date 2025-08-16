@@ -54,7 +54,7 @@ app.get("/emojis", async (req, res) => {
     res.json(data);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Error fetching recipes" });
+    res.status(500).json({ error: "Error fetching emojis" });
   }
 });
 
