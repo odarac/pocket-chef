@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import Database from "better-sqlite3";
 
 const app = express();
 const PORT = 3000;
@@ -13,9 +14,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, "sample"))); 
+app.use(express.static(path.join(__dirname, "sample2"))); 
 
-const apiKey = "cfa92ebe1cb348f39861aa5904cbbaa7";
+const recipeApiKey = "cfa92ebe1cb348f39861aa5904cbbaa7";
+const emojiApiKey = "535509337cbc9b9f54114fb8beb3a5cffd8d7815";
 
 // API endpoint for recipes
 app.get("/recipes", async (req, res) => {
@@ -23,7 +25,7 @@ app.get("/recipes", async (req, res) => {
     const ingredients = req.query.ingredients;
     if (!ingredients) return res.json([]);
 
-    const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=6&apiKey=${apiKey}`;
+    const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=6&apiKey=${recipeApiKey}`;
     const response = await fetch(url);
     const data = await response.json();
     res.json(data);
@@ -33,6 +35,22 @@ app.get("/recipes", async (req, res) => {
   }
 });
 
+// API endpoint for emojis
+app.get("/emojis", async (req, res) => {
+  try {
+    const ingredient = req.query.ingredient;
+
+    const url = `https://emoji-api.com/emojis?search=${encodeURIComponent(ingredient)}&access_key=${emojiApiKey}`;
+    const response = await fetch(url);
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching recipes" });
+  }
+});
+
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
