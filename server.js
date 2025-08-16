@@ -32,7 +32,7 @@ app.get("/recipes", async (req, res) => {
     const ingredients = req.query.ingredients;
     if (!ingredients) return res.json([]);
 
-    const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=6&apiKey=${recipeApiKey}`;
+    const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=15&apiKey=${recipeApiKey}`;
     const response = await fetch(url);
     const data = await response.json();
     res.json(data);
