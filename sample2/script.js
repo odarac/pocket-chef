@@ -112,16 +112,21 @@ async function getEmojiForIngredient(ingredient) {
 
   // 3. API search
   try {
-    const API_KEY = "535509337cbc9b9f54114fb8beb3a5cffd8d7815";
-    const response = await fetch(
-      `https://emoji-api.com/emojis?search=${encodeURIComponent(ingredient)}&access_key=${API_KEY}`
-    );
-    const data = await response.json();
+    // const API_KEY = "535509337cbc9b9f54114fb8beb3a5cffd8d7815";
+    // const response = await fetch(
+    //   `https://emoji-api.com/emojis?search=${encodeURIComponent(ingredient)}&access_key=${API_KEY}`
+    // );
+    // const data = await response.json();
+
+    const res = await fetch(`/emojis?ingredient=${encodeURIComponent(ingredient)}`);
+    if (!res.ok) throw new Error("Failed to fetch emoji:(");
+    const data = await res.json();
+    
     if (data && data[0]?.character) {
       return data[0].character;
     }
   } catch (error) {
-    console.error("Emoji API 请求失败:", error);
+    console.error("Emoji API request fail:", error);
   }
 
   // 4. fallback
@@ -131,7 +136,7 @@ async function getEmojiForIngredient(ingredient) {
 // ====== add ingredients ======
 async function addIngredient() {
   const value = document.getElementById("ingredient-input").value.trim();
-  if (!value) return alert("请输入食材名称！");
+  if (!value) return alert("please enter the ingredients name!!");
 
   // get emoji (instead of image)
   const emoji = await getEmojiForIngredient(value);
