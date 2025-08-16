@@ -77,53 +77,60 @@ async function addIngredient() {
   const value = document.getElementById("ingredient-input").value.trim();
   if (!value) return alert("please enter the ingredients name!!");
 
+
+  //split enter; remove dupicate space
+  const values = value.split(",").map(v => v.trim()).filter(v => v);
+
   // get emoji (instead of image)
-  const emoji = await getEmojiForIngredient(value);
+   for (const ingredient of values) {
+      const emoji = await getEmojiForIngredient(ingredient);
 
-  // store ingredient
-  ingredients.push(value);
-  document.getElementById("ingredient-input").value = "";
+      // store ingredient
+      ingredients.push(ingredient);
+      document.getElementById("ingredient-input").value = "";
 
-  // get DOM elements
-  const plate = document.getElementById("plate");
-  const list = document.getElementById("ingredient-list");
+      // get DOM elements
+      const plate = document.getElementById("plate");
+      const list = document.getElementById("ingredient-list");
 
-  // random position in circle
-  const rect = plate.getBoundingClientRect();
-  const r = rect.width / 2 - 50;
-  const t = Math.random() * Math.PI * 2;
-  const rr = Math.sqrt(Math.random()) * r;
-  const x = rr * Math.cos(t) + rect.width / 2;
-  const y = rr * Math.sin(t) + rect.height / 2;
+      // random position in circle
+      const rect = plate.getBoundingClientRect();
+      const r = rect.width / 2 - 50;
+      const t = Math.random() * Math.PI * 2;
+      const rr = Math.sqrt(Math.random()) * r;
+      const x = rr * Math.cos(t) + rect.width / 2;
+      const y = rr * Math.sin(t) + rect.height / 2;
 
-  // create chip
-  const chip = document.createElement("div");
-  chip.className = "ingredient-chip";
-  chip.style.left = `${x}px`;
-  chip.style.top = `${y}px`;
-  chip.title = `${value} (click to delete)`;
+      // create chip
+      const chip = document.createElement("div");
+      chip.className = "ingredient-chip";
+      chip.style.left = `${x}px`;
+      chip.style.top = `${y}px`;
+      chip.title = `${ingredient} (click to delete)`;
 
-  // add emoji
-  const span = document.createElement("span");
-  span.className = "ingredient-emoji";
-  span.textContent = emoji;
-  chip.appendChild(span);
+      // add emoji
+      const span = document.createElement("span");
+      span.className = "ingredient-emoji";
+      span.textContent = emoji;
+      chip.appendChild(span);
 
-  // random rotation
-  chip.style.transform = `translate(-50%,-50%) rotate(${(Math.random() * 12 - 6).toFixed(2)}deg)`;
+      // random rotation
+      chip.style.transform = `translate(-50%,-50%) rotate(${(Math.random() * 12 - 6).toFixed(2)}deg)`;
 
-  // click to delete
-  chip.addEventListener("click", () => {
-    chip.style.transition = "transform .18s ease, opacity .18s ease";
-    chip.style.transform = "translate(-50%,-50%) scale(.7)";
-    chip.style.opacity = "0";
-    setTimeout(() => chip.remove(), 180);
-    ingredients = ingredients.filter(i => i !== value);
-  });
+      // click to delete
+      chip.addEventListener("click", () => {
+        chip.style.transition = "transform .18s ease, opacity .18s ease";
+        chip.style.transform = "translate(-50%,-50%) scale(.7)";
+        chip.style.opacity = "0";
+        setTimeout(() => chip.remove(), 180);
+        ingredients = ingredients.filter(i => i !== value);
+      });
 
-  list.appendChild(chip);
+      list.appendChild(chip);
+    }
+      // erase the input
+      document.getElementById("ingredient-input").value = "";
 }
-
 // ====== bind button ======
 document.getElementById("add-btn").addEventListener("click", addIngredient);
 
