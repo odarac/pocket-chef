@@ -157,7 +157,7 @@ async function addIngredient() {
   chip.className = "ingredient-chip";
   chip.style.left = `${x}px`;
   chip.style.top = `${y}px`;
-  chip.title = `${value} (点击删除)`;
+  chip.title = `${value} (click to delete)`;
 
   // add emoji
   const span = document.createElement("span");
