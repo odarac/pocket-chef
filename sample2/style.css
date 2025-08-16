@@ -40,8 +40,9 @@
     font-family: "Brush Script MT", "Comic Sans MS", cursive;
     font-size: clamp(28px, 5vw, 44px);
     letter-spacing:.5px;
+    margin-left: 10px;
   }
-  .tagline{opacity:.9; font-size:14px; margin-top:-4px}
+  .tagline{opacity:.9; font-size:14px; margin-top:-8px;margin-left: 10px}
   .nav-link{color:#fff; text-decoration:none; margin-left:18px; padding:8px 10px; border-radius:10px}
   .nav-link:hover{background:rgba(255,255,255,.12)}
   
@@ -364,3 +365,215 @@
 .result-card {
   margin: 6px 0;
 }
+
+/* filter */
+.filter-knife {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  cursor: pointer;
+  height: 60px;
+  width: 80px;
+  transition: all 0.3s ease;
+  z-index: 20;
+  margin-top: 80px;
+  /* 添加相对定位作为子元素的参照 */
+  position: fixed;
+}
+
+/* 雪糕棍部分（左半部分） */
+.filter-knife::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;  /* 调整棍子宽度 */
+  height: 60px;
+  background: #5d9259;
+  border-radius: 0 8px 8px 0;
+  z-index: 1;
+}
+
+/* 雪糕部分（右半部分） */
+.filter-knife::after {
+  content: '';
+  position: absolute;
+  left: 20px;  /* 紧贴棍子右侧 */
+  top: 0;
+  width: 50px;  /* 调整雪糕宽度 */
+  height: 60px;
+  background: #df6853;
+  /* 更平滑的波浪边缘 */
+  clip-path: polygon(
+    0 0,       /* 左上角 */
+    0 15%,     /* 开始波浪 */
+    15% 30%,
+    0 45%,
+    15% 60%,
+    0 75%,
+    15% 90%,
+    0 100%,    /* 左下角 */
+    100% 100%, /* 右下角 */
+    100% 0     /* 右上角 */
+  );
+  border-radius: 0 8px 8px 0;
+  z-index: 2;
+}
+
+/* 巧克力豆装饰 */
+.filter-knife .chocolate-chip {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #5C3317;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* 巧克力豆位置调整 */
+.filter-knife .chip1 { left: 40px; top: 15px; }
+.filter-knife .chip2 { left: 50px; top: 30px; }
+.filter-knife .chip3 { left: 45px; top: 45px; }
+
+/* 整体悬停动画 */
+.filter-knife:hover {
+  transform: translateX(5px) rotate(-2deg);
+}
+
+/* 波浪部分的微动效果 */
+.filter-knife:hover::after {
+  animation: wave 0.8s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { clip-path: polygon(0 0,100% 0,100% 15%,85% 30%,100% 45%,85% 60%,100% 75%,85% 90%,100% 100%,0 100%); }
+  50% { clip-path: polygon(0 0,100% 0,100% 20%,80% 30%,100% 40%,80% 60%,100% 70%,80% 80%,100% 100%,0 100%); }
+}
+
+/* .knife-handle {
+  position:fixed;
+  width: 30px;
+  height: 40px;
+  background: linear-gradient(145deg, #583c28, #A0522D);
+  border-radius: 5px 0 0 5px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+  z-index: 2;
+  
+}
+
+.knife-blade {
+  position:fixed;
+  left: 30px;
+  width: 10px;
+  height: 40px;
+  background: linear-gradient(to right, #ddd, #fff);
+  border-radius: 0 2px 2px 0;
+  z-index: 1;
+} */
+
+.filter-label {
+  position:absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #e3cab5;
+  color: #583c28;
+  padding: 5px 10px;
+  border-radius: 0 15px 15px 0;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  z-index: 0;
+}
+
+.filter-knife:hover .filter-label {
+  opacity: 1;
+}
+
+/* Enhanced original filter panel styles */
+.filter-panel {
+  position: fixed;
+  top: 100px;
+  left: -300px;
+  width: 280px;
+  min-height: 300px;
+  background: #F9F6EE;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  z-index: 999;
+  border-left: 8px solid #715540;
+  margin-top: 100px;
+}
+
+.filter-panel.active {
+  left: 0;
+}
+
+.filter-panel h3 {
+  margin: 0 0 20px 0;
+  color: #604614;
+  font-family: 'Courier New', monospace;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #ccc;
+  position: relative;
+}
+
+.notepad-pin {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  width: 15px;
+  height: 15px;
+  background: #efb851;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 15px 0;
+}
+
+.ingredient-tag {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ingredient-tag:hover {
+  background: #ffebcc;
+}
+
+.ingredient-tag input {
+  margin-right: 5px;
+}
+
+#confirmBtn {
+  margin-top: 20px;
+  padding: 8px 15px;
+  background: #7b572e;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+#confirmBtn:hover {
+  background: #c68d4c;
+}
+
+

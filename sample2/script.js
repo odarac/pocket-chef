@@ -140,6 +140,55 @@ document.getElementById("ingredient-input").addEventListener("keydown", (e) => {
 });
 
 
+
+
+
+
+const ALLERGEN_MAP = {
+  seafood: [
+    "fish", "salmon", "tuna", "cod", "trout", "mackerel", "sardine",
+    "shrimp", "prawn", "crab", "lobster", "clam", "oyster", "mussel", "scallop", "squid", "octopus", "caviar"
+  ],
+  dairy: [
+    "milk", "cheese", "butter", "cream", "yogurt", "ghee", "whey", "casein", "ice cream", "custard"
+  ],
+  nuts: [
+    "peanut", "almond", "cashew", "walnut", "hazelnut", "pecan", "macadamia", "brazil nut", "pistachio", "pine nut"
+  ],
+  egg: [
+    "egg", "egg white", "egg yolk", "mayonnaise", "meringue", "custard"
+  ],
+  gluten: [
+    "wheat", "barley", "rye", "pasta", "bread", "flour", "spelt", "semolina", "couscous", "malt", "seitan", "cracker"
+  ]
+};
+
+
+// 过滤掉含有过敏原的食谱
+function filterByAllergens(recipes, allergens) {
+  if (!allergens || allergens.length === 0) return recipes;
+
+  return recipes.filter(recipe => {
+    // recipe 里需要有原料信息，如果你的 API 没返回 ingredients，要改 fetchRecipes
+    if (!recipe.usedIngredients && !recipe.missedIngredients) return true;
+
+    // 把所有原料合并成一个字符串（方便匹配）
+    const allIngredients = [
+      ...(recipe.usedIngredients || []),
+      ...(recipe.missedIngredients || [])
+    ].map(i => i.name.toLowerCase());
+
+    // 如果含有任意一个过敏原，则剔除
+    return !allergens.some(allergen => {
+      const allergenLower = allergen.toLowerCase();
+      const keywords = ALLERGEN_MAP[allergenLower] || [allergenLower];
+      return allIngredients.some(ing =>
+        keywords.some(kw => ing.includes(kw))
+      );
+    });
+  });
+}
+
 // ======= Generate recipe（use Spoonacular API）=======
 document.getElementById("generate-btn").addEventListener("click", async () => {
     if (ingredients.length === 0) {
@@ -149,7 +198,7 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
     currentPage = 1;
 
     try {
-        // const apiKey = "8d91f45481254b019daa98ab412f290b"; // add your api key
+        // const apiKey = ""; // add your api key
         // const query = ingredients.join(",");
 
         // show Loading
@@ -172,9 +221,13 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
         recipes = data.map(item => ({
             title: item.title,
             img: item.image,
-            link: `https://spoonacular.com/recipes/${item.title.replace(/\s+/g, "-")}-${item.id}`
+            link: `https://spoonacular.com/recipes/${item.title.replace(/\s+/g, "-")}-${item.id}`,
+            usedIngredients: item.usedIngredients ,
+            missedIngredients: item.missedIngredients 
         }));
 
+        // 先过滤过敏原 filter first
+        recipes = filterByAllergens(recipes, selectedAllergens);
         displayRecipes();
         document.getElementById("pagination").classList.remove("hidden");
 
@@ -378,3 +431,40 @@ addSelectedBtn.addEventListener("click", async () => {
   recognitionDiv.classList.add("hidden");
 });
 
+document.addEventListener('click', function(event) {
+  // 获取过滤面板元素和餐刀按钮元素
+  const filterPanel = document.getElementById('filterPanel');
+  const filterKnife = document.querySelector('.filter-knife');
+  
+  // 检查点击的目标元素
+  if (!filterPanel.contains(event.target) && !filterKnife.contains(event.target)) {
+    // 如果点击的不是过滤面板内部，也不是餐刀按钮
+    filterPanel.classList.remove('active'); // 移除active类，关闭面板
+  }
+});
+
+    const rope = document.querySelector('.filter-knife');
+    const panel = document.getElementById('filterPanel');
+    const confirmBtn = document.getElementById('confirmBtn');
+
+    let selectedAllergens = [];
+
+    // 点击绳子 → 打开便签
+    rope.addEventListener('click', () => {
+      panel.classList.add('active');
+    });
+
+    // 点击确认 → 收回并记录
+    confirmBtn.addEventListener('click', () => {
+      const checkboxes = panel.querySelectorAll('input[type=checkbox]');
+      selectedAllergens = [];
+      checkboxes.forEach(cb => {
+        if (cb.checked) selectedAllergens.push(cb.value);
+      });
+
+      console.log("过滤掉这些过敏原：", selectedAllergens);
+
+      panel.classList.remove('active');
+      // 这里你可以把 selectedAllergens 传递给搜索逻辑
+      displayRecipes(); // 重新刷新，应用过滤
+    });
