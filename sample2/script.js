@@ -310,19 +310,35 @@ cameraInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
+  const formData = new FormData();
+  formData.append("photo", file);
+
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
   // 显示扫描动画
   scanningDiv.classList.remove("hidden");
+
+  const data = await res.json();
+  console.log("Detected ingredients:", data.ingredients);
+
+  // Optional: put detected ingredients in the input box
+  document.getElementById("ingredient-input").value = data.ingredients;
+
+
 
   // ===== mock: 模拟识别（后端可替换这里） =====
   // TODO: 替换成 fetch("/scan", {method:"POST",body:formData})
   setTimeout(() => {
     scanningDiv.classList.add("hidden");
 
-    // 假装识别出来的食材
-    const mockResults = ["Tomato", "Cheese", "Bread"];
+  //   // 假装识别出来的食材
+  //   const mockResults = ["Tomato", "Cheese", "Bread"];
 
     // 显示识别结果
-    showRecognitionResults(mockResults);
+    showRecognitionResults(data.ingredients);
   }, 2000);
 });
 
@@ -354,3 +370,4 @@ addSelectedBtn.addEventListener("click", async () => {
   }
   recognitionDiv.classList.add("hidden");
 });
+
