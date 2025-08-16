@@ -2,168 +2,191 @@ let ingredients = [];
 let currentPage = 1;
 let recipes = []; // save api returned recipe
 
-// ======= add ingredients =======
-const EMOJIS = ["🍅","🧄","🍄","🥑","🥕","🧀","🥬","🌶️","🧅","🥔","🍋","🫑","🌽","🥛","🥚"]; 
+// // ======= add ingredients =======
+// const EMOJIS = ["🍅","🧄","🍄","🥑","🥕","🧀","🥬","🌶️","🧅","🥔","🍋","🫑","🌽","🥛","🥚"]; 
 
 
-document.getElementById("add-btn").addEventListener("click", () => {
-    const value = document.getElementById("ingredient-input").value.trim();
-    if (!value) return alert("Please enter an ingredient.");
+// document.getElementById("add-btn").addEventListener("click", () => {
+//     const value = document.getElementById("ingredient-input").value.trim();
+//     if (!value) return alert("Please enter an ingredient.");
 
-    ingredients.push(value);
-    document.getElementById("ingredient-input").value = "";
+//     ingredients.push(value);
+//     document.getElementById("ingredient-input").value = "";
 
-    // get DOM elements
-    const plate = document.getElementById("plate");
-    const list = document.getElementById("ingredient-list");
+//     // get DOM elements
+//     const plate = document.getElementById("plate");
+//     const list = document.getElementById("ingredient-list");
 
-    // randomly put in the round area
-    const rect = plate.getBoundingClientRect();
-    const r = rect.width/2 - 50; // inner margin
-    let x = 0, y = 0;
+//     // randomly put in the round area
+//     const rect = plate.getBoundingClientRect();
+//     const r = rect.width/2 - 50; // inner margin
+//     let x = 0, y = 0;
     
-    // random spot in the circle
-    const t = Math.random()*Math.PI*2;
-    const rr = Math.sqrt(Math.random())*r;
-    x = rr*Math.cos(t) + rect.width/2;
-    y = rr*Math.sin(t) + rect.height/2;
+//     // random spot in the circle
+//     const t = Math.random()*Math.PI*2;
+//     const rr = Math.sqrt(Math.random())*r;
+//     x = rr*Math.cos(t) + rect.width/2;
+//     y = rr*Math.sin(t) + rect.height/2;
 
-    // Create ingredient chips
-    const chip = document.createElement("div");
-    chip.className = "ingredient-chip";
-    chip.style.left = `${x}px`;
-    chip.style.top = `${y}px`;
-    chip.title = `${value} (click to remove)`;
+//     // Create ingredient chips
+//     const chip = document.createElement("div");
+//     chip.className = "ingredient-chip";
+//     chip.style.left = `${x}px`;
+//     chip.style.top = `${y}px`;
+//     chip.title = `${value} (click to remove)`;
     
-    // add emoji
-    const span = document.createElement("span");
-    span.className = "ingredient-emoji";
-    span.textContent = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-    chip.appendChild(span);
-    
-    // randomly spin
-    chip.style.transform = `translate(-50%,-50%) rotate(${(Math.random()*12-6).toFixed(2)}deg)`;
-    
-    // click to delete
-    chip.addEventListener("click", () => {
-        chip.style.transition = "transform .18s ease, opacity .18s ease";
-        chip.style.transform = "translate(-50%,-50%) scale(.7)";
-        chip.style.opacity = "0";
-        setTimeout(() => chip.remove(), 180);
-        ingredients = ingredients.filter(i => i !== value);
-    });
-    
-    list.appendChild(chip);
-});
-
-// add support for 'Enter'
-document.getElementById("ingredient-input").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        document.getElementById("add-btn").click();
-    }
-});
-
-
-// // 获取食物图片或emoji
-// async function getFoodVisual(name) {
-//   try {
-//     // 尝试获取食物图片
-//     const img = await fetch(`https://foodish-api.herokuapp.com/api/images/${encodeURIComponent(name)}`)
-//       .then(res => res.json());
-//     return {
-//       type: 'image',
-//       content: img.image
-//     };
-//   } catch {
-//     // 失败时获取emoji
-//     return {
-//       type: 'emoji',
-//       content: await getEmojiForIngredient(name)
-//     };
-//   }
-// }
-
-// // 获取匹配的emoji（备用方案）
-// async function getEmojiForIngredient(ingredient) {
-//   try {
-//     const API_KEY = "ENTER YOUR API KEY";
-//     const response = await fetch(
-//       `https://emoji-api.com/emojis?search=${encodeURIComponent(ingredient)}&access_key=${API_KEY}`
-//     );
-//     const data = await response.json();
-//     return data[0]?.character || "🍕";
-//   } catch (error) {
-//     console.error("Emoji API 请求失败:", error);
-//     return "❓";
-//   }
-// }
-
-// // 添加食材（异步函数）
-// async function addIngredient() {
-//   const value = document.getElementById("ingredient-input").value.trim();
-//   if (!value) return alert("请输入食材名称！");
-
-//   // 获取食物视觉内容（图片或emoji）
-//   const visual = await getFoodVisual(value);
-
-//   // 存储食材
-//   ingredients.push(value);
-//   document.getElementById("ingredient-input").value = "";
-
-//   // 获取DOM元素
-//   const plate = document.getElementById("plate");
-//   const list = document.getElementById("ingredient-list");
-
-//   // 在圆形区域内随机放置
-//   const rect = plate.getBoundingClientRect();
-//   const r = rect.width / 2 - 50;
-//   const t = Math.random() * Math.PI * 2;
-//   const rr = Math.sqrt(Math.random()) * r;
-//   const x = rr * Math.cos(t) + rect.width / 2;
-//   const y = rr * Math.sin(t) + rect.height / 2;
-
-//   // 创建食材芯片
-//   const chip = document.createElement("div");
-//   chip.className = "ingredient-chip";
-//   chip.style.left = `${x}px`;
-//   chip.style.top = `${y}px`;
-//   chip.title = `${value} (点击删除)`;
-
-//   // 添加视觉内容
-//   if (visual.type === 'image') {
-//     const img = document.createElement("img");
-//     img.src = visual.content;
-//     img.className = "food-image";
-//     chip.appendChild(img);
-//   } else {
+//     // add emoji
 //     const span = document.createElement("span");
 //     span.className = "ingredient-emoji";
-//     span.textContent = visual.content;
+//     span.textContent = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
 //     chip.appendChild(span);
-//   }
-
-//   // 随机旋转
-//   chip.style.transform = `translate(-50%,-50%) rotate(${(Math.random() * 12 - 6).toFixed(2)}deg)`;
-
-//   // 点击删除
-//   chip.addEventListener("click", () => {
-//     chip.style.transition = "transform .18s ease, opacity .18s ease";
-//     chip.style.transform = "translate(-50%,-50%) scale(.7)";
-//     chip.style.opacity = "0";
-//     setTimeout(() => chip.remove(), 180);
-//     ingredients = ingredients.filter(i => i !== value);
-//   });
-
-//   list.appendChild(chip);
-// }
-
-// // 绑定按钮事件
-// document.getElementById("add-btn").addEventListener("click", addIngredient);
-
-// // 回车键支持
-// document.getElementById("ingredient-input").addEventListener("keydown", (e) => {
-//   if (e.key === "Enter") addIngredient();
+    
+//     // randomly spin
+//     chip.style.transform = `translate(-50%,-50%) rotate(${(Math.random()*12-6).toFixed(2)}deg)`;
+    
+//     // click to delete
+//     chip.addEventListener("click", () => {
+//         chip.style.transition = "transform .18s ease, opacity .18s ease";
+//         chip.style.transform = "translate(-50%,-50%) scale(.7)";
+//         chip.style.opacity = "0";
+//         setTimeout(() => chip.remove(), 180);
+//         ingredients = ingredients.filter(i => i !== value);
+//     });
+    
+//     list.appendChild(chip);
 // });
+
+// // add support for 'Enter'
+// document.getElementById("ingredient-input").addEventListener("keydown", (e) => {
+//     if (e.key === "Enter") {
+//         document.getElementById("add-btn").click();
+//     }
+// });
+
+
+// ====== local dictionary ======
+const INGREDIENT_EMOJI_MAP = {
+  tomato: "🍅",
+  garlic: "🧄",
+  mushroom: "🍄",
+  avocado: "🥑",
+  carrot: "🥕",
+  cheese: "🧀",
+  lettuce: "🥬",
+  chili: "🌶️",
+  onion: "🧅",
+  potato: "🥔",
+  lemon: "🍋",
+  pepper: "🫑",
+  corn: "🌽",
+  milk: "🥛",
+  egg: "🥚",
+  bread: "🍞",
+  chicken: "🍗",
+  beef: "🥩",
+  pork: "🥓",
+  fish: "🐟",
+  shrimp: "🦐",
+  rice: "🍚",
+  pasta: "🍝",
+  apple: "🍎",
+  banana: "🍌",
+  strawberry: "🍓"
+};
+
+// ====== get emoji for ingredient ======
+async function getEmojiForIngredient(ingredient) {
+  const key = ingredient.toLowerCase();
+
+  // 1. local dictionary
+  if (INGREDIENT_EMOJI_MAP[key]) {
+    return INGREDIENT_EMOJI_MAP[key];
+  }
+
+  // 2. fuzzy matching
+  for (let k in INGREDIENT_EMOJI_MAP) {
+    if (key.includes(k)) {
+      return INGREDIENT_EMOJI_MAP[k];
+    }
+  }
+
+  // 3. API search
+  try {
+    const API_KEY = "535509337cbc9b9f54114fb8beb3a5cffd8d7815";
+    const response = await fetch(
+      `https://emoji-api.com/emojis?search=${encodeURIComponent(ingredient)}&access_key=${API_KEY}`
+    );
+    const data = await response.json();
+    if (data && data[0]?.character) {
+      return data[0].character;
+    }
+  } catch (error) {
+    console.error("Emoji API 请求失败:", error);
+  }
+
+  // 4. fallback
+  return "❓";
+}
+
+// ====== add ingredients ======
+async function addIngredient() {
+  const value = document.getElementById("ingredient-input").value.trim();
+  if (!value) return alert("请输入食材名称！");
+
+  // get emoji (instead of image)
+  const emoji = await getEmojiForIngredient(value);
+
+  // store ingredient
+  ingredients.push(value);
+  document.getElementById("ingredient-input").value = "";
+
+  // get DOM elements
+  const plate = document.getElementById("plate");
+  const list = document.getElementById("ingredient-list");
+
+  // random position in circle
+  const rect = plate.getBoundingClientRect();
+  const r = rect.width / 2 - 50;
+  const t = Math.random() * Math.PI * 2;
+  const rr = Math.sqrt(Math.random()) * r;
+  const x = rr * Math.cos(t) + rect.width / 2;
+  const y = rr * Math.sin(t) + rect.height / 2;
+
+  // create chip
+  const chip = document.createElement("div");
+  chip.className = "ingredient-chip";
+  chip.style.left = `${x}px`;
+  chip.style.top = `${y}px`;
+  chip.title = `${value} (点击删除)`;
+
+  // add emoji
+  const span = document.createElement("span");
+  span.className = "ingredient-emoji";
+  span.textContent = emoji;
+  chip.appendChild(span);
+
+  // random rotation
+  chip.style.transform = `translate(-50%,-50%) rotate(${(Math.random() * 12 - 6).toFixed(2)}deg)`;
+
+  // click to delete
+  chip.addEventListener("click", () => {
+    chip.style.transition = "transform .18s ease, opacity .18s ease";
+    chip.style.transform = "translate(-50%,-50%) scale(.7)";
+    chip.style.opacity = "0";
+    setTimeout(() => chip.remove(), 180);
+    ingredients = ingredients.filter(i => i !== value);
+  });
+
+  list.appendChild(chip);
+}
+
+// ====== bind button ======
+document.getElementById("add-btn").addEventListener("click", addIngredient);
+
+// ====== support 'Enter' ======
+document.getElementById("ingredient-input").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") addIngredient();
+});
 
 
 // ======= Generate recipe（use Spoonacular API）=======
@@ -175,7 +198,7 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
     currentPage = 1;
 
     try {
-        const apiKey = "API KEY"; // add your api key
+        const apiKey = "8d91f45481254b019daa98ab412f290b"; // add your api key
         const query = ingredients.join(",");
 
         // show Loading
