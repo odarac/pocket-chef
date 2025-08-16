@@ -198,15 +198,17 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
     currentPage = 1;
 
     try {
-        const apiKey = "8d91f45481254b019daa98ab412f290b"; // add your api key
-        const query = ingredients.join(",");
+        // const apiKey = "8d91f45481254b019daa98ab412f290b"; // add your api key
+        // const query = ingredients.join(",");
 
         // show Loading
         document.getElementById("loading").classList.remove("hidden");
 
-        const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${encodeURIComponent(query)}&number=10&ranking=1&ignorePantry=true&apiKey=${apiKey}`;
-        const res = await fetch(url);
-        const data = await res.json();
+        // const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${encodeURIComponent(query)}&number=10&ranking=1&ignorePantry=true&apiKey=${apiKey}`;
+        // const res = await fetch(url);
+        // const data = await res.json();
+
+        const data = await fetchRecipes();
 
         // hide Loading
         document.getElementById("loading").classList.add("hidden");
@@ -282,4 +284,19 @@ function displayRecipes() {
     });
 
     document.getElementById("page-info").textContent = `Page ${currentPage} of ${Math.ceil(recipes.length / 2)}`;
+}
+
+async function fetchRecipes() {
+  try {
+    const query = ingredients.join(",");
+    const res = await fetch(`/recipes?ingredients=${encodeURIComponent(ingredients)}`);
+    if (!res.ok) throw new Error("Failed to fetch recipes:(");
+
+    const recipes = await res.json();
+    return recipes;
+
+  } catch (err) {
+    console.error(err);
+    resultsDiv.innerHTML = `<p>Error fetching recipes</p>`;
+  }
 }
