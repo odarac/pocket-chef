@@ -3,8 +3,11 @@ import express from "express";
 import fetch from "node-fetch";
 import cors from "cors";
 import path from "path";
+import dotenv from 'dotenv';
 import { fileURLToPath } from "url";
 import Database from "better-sqlite3";
+
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
@@ -16,8 +19,8 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.static(path.join(__dirname, "sample2"))); 
 
-const recipeApiKey = "8d91f45481254b019daa98ab412f290b";
-const emojiApiKey = "535509337cbc9b9f54114fb8beb3a5cffd8d7815";
+const recipeApiKey = process.env.RECIPE_API_KEY;
+const emojiApiKey = process.env.EMOJI_API_KEY;
 
 // API endpoint for recipes
 app.get("/recipes", async (req, res) => {
