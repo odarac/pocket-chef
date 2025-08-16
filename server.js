@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.static(path.join(__dirname, "sample2"))); 
 
-const recipeApiKey = "cfa92ebe1cb348f39861aa5904cbbaa7";
+const recipeApiKey = "8d91f45481254b019daa98ab412f290b";
 const emojiApiKey = "535509337cbc9b9f54114fb8beb3a5cffd8d7815";
 
 // API endpoint for recipes
