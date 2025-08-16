@@ -2,67 +2,6 @@ let ingredients = [];
 let currentPage = 1;
 let recipes = []; // save api returned recipe
 
-// // ======= add ingredients =======
-// const EMOJIS = ["🍅","🧄","🍄","🥑","🥕","🧀","🥬","🌶️","🧅","🥔","🍋","🫑","🌽","🥛","🥚"]; 
-
-
-// document.getElementById("add-btn").addEventListener("click", () => {
-//     const value = document.getElementById("ingredient-input").value.trim();
-//     if (!value) return alert("Please enter an ingredient.");
-
-//     ingredients.push(value);
-//     document.getElementById("ingredient-input").value = "";
-
-//     // get DOM elements
-//     const plate = document.getElementById("plate");
-//     const list = document.getElementById("ingredient-list");
-
-//     // randomly put in the round area
-//     const rect = plate.getBoundingClientRect();
-//     const r = rect.width/2 - 50; // inner margin
-//     let x = 0, y = 0;
-    
-//     // random spot in the circle
-//     const t = Math.random()*Math.PI*2;
-//     const rr = Math.sqrt(Math.random())*r;
-//     x = rr*Math.cos(t) + rect.width/2;
-//     y = rr*Math.sin(t) + rect.height/2;
-
-//     // Create ingredient chips
-//     const chip = document.createElement("div");
-//     chip.className = "ingredient-chip";
-//     chip.style.left = `${x}px`;
-//     chip.style.top = `${y}px`;
-//     chip.title = `${value} (click to remove)`;
-    
-//     // add emoji
-//     const span = document.createElement("span");
-//     span.className = "ingredient-emoji";
-//     span.textContent = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-//     chip.appendChild(span);
-    
-//     // randomly spin
-//     chip.style.transform = `translate(-50%,-50%) rotate(${(Math.random()*12-6).toFixed(2)}deg)`;
-    
-//     // click to delete
-//     chip.addEventListener("click", () => {
-//         chip.style.transition = "transform .18s ease, opacity .18s ease";
-//         chip.style.transform = "translate(-50%,-50%) scale(.7)";
-//         chip.style.opacity = "0";
-//         setTimeout(() => chip.remove(), 180);
-//         ingredients = ingredients.filter(i => i !== value);
-//     });
-    
-//     list.appendChild(chip);
-// });
-
-// // add support for 'Enter'
-// document.getElementById("ingredient-input").addEventListener("keydown", (e) => {
-//     if (e.key === "Enter") {
-//         document.getElementById("add-btn").click();
-//     }
-// });
-
 
 // ====== local dictionary ======
 const INGREDIENT_EMOJI_MAP = {
@@ -308,54 +247,8 @@ async function fetchRecipes() {
 
 
 
-// // =======================================================
-// // ===== New: Login Modal (Modal) Control Logic =====
-// // =======================================================
-
-// // First, get the HTML elements that need to be manipulated
-// const loginModal = document.getElementById('login-modal'); // The entire modal (gray background)
-// const loginTriggerBtn = document.getElementById('login-trigger-btn'); // The "Login" button in the navigation bar
-// const closeModalBtn = document.getElementById('close-modal-btn'); // The close button (×) in the top-right of the modal
-
-// // --- Function: Open Modal ---
-// // Define a function to show the modal
-// function openModal() {
-//   // Remove the 'hidden' class from the modal; this class is typically set to display: none; in CSS
-//   loginModal.classList.remove('hidden'); 
-// }
-
-// // --- Function: Close Modal ---
-// // Define a function to hide the modal
-// function closeModal() {
-//   // Add the 'hidden' class to the modal to hide it
-//   loginModal.classList.add('hidden');
-// }
-
-// // --- Bind Event Listeners ---
-// // 1. When the user clicks the "Login" button in the navigation bar, call the openModal function
-// if (loginTriggerBtn) {
-//   loginTriggerBtn.addEventListener('click', openModal);
-// }
-
-// // 2. When the user clicks the close button (×) in the modal, call the closeModal function
-// if (closeModalBtn) {
-//   closeModalBtn.addEventListener('click', closeModal);
-// }
-
-// // 3. (Optional but recommended) When the user clicks on the gray background area of the modal, also close the modal
-// if (loginModal) {
-//   loginModal.addEventListener('click', (event) => {
-//     // Check if the target of the click event is the gray background itself (and not the form inside)
-//     if (event.target === loginModal) {
-//       closeModal();
-//     }
-//   });
-// }
-
 document.addEventListener("DOMContentLoaded", () => {
-  // =======================================================
   // ===== New: Login Modal (Modal) Control Logic =====
-  // =======================================================
 
   // First, get the HTML elements that need to be manipulated
   const loginModal = document.getElementById('login-modal'); // The entire modal (gray background)
@@ -396,4 +289,68 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+});
+
+
+// ====== Scan & Recognition Flow ======
+const cameraBtn = document.getElementById("camera-btn");
+const cameraInput = document.getElementById("camera-input");
+const scanningDiv = document.getElementById("scanning");
+const recognitionDiv = document.getElementById("recognition-results");
+const resultList = document.getElementById("result-list");
+const addSelectedBtn = document.getElementById("add-selected-btn");
+
+// 点击 Scan 按钮 → 打开上传
+cameraBtn.addEventListener("click", () => {
+  cameraInput.click();
+});
+
+// 文件选择后触发
+cameraInput.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // 显示扫描动画
+  scanningDiv.classList.remove("hidden");
+
+  // ===== mock: 模拟识别（后端可替换这里） =====
+  // TODO: 替换成 fetch("/scan", {method:"POST",body:formData})
+  setTimeout(() => {
+    scanningDiv.classList.add("hidden");
+
+    // 假装识别出来的食材
+    const mockResults = ["Tomato", "Cheese", "Bread"];
+
+    // 显示识别结果
+    showRecognitionResults(mockResults);
+  }, 2000);
+});
+
+// 展示识别结果
+function showRecognitionResults(items) {
+  resultList.innerHTML = "";
+  items.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "result-card";
+    div.innerHTML = `
+      <label>
+        <input type="checkbox" value="${item}">
+        <span>${INGREDIENT_EMOJI_MAP[item.toLowerCase()] || "❓"} ${item}</span>
+      </label>
+    `;
+    resultList.appendChild(div);
+  });
+  recognitionDiv.classList.remove("hidden");
+}
+
+// 把选中的加入 Plate
+addSelectedBtn.addEventListener("click", async () => {
+  const selected = [...document.querySelectorAll("#result-list input:checked")]
+    .map(input => input.value);
+
+  for (let ing of selected) {
+    document.getElementById("ingredient-input").value = ing;
+    await addIngredient();
+  }
+  recognitionDiv.classList.add("hidden");
 });

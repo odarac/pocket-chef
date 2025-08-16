@@ -16,6 +16,12 @@
     <p>Cooking your recipe...</p>
 </div>
 
+<!-- Scanning Animation -->
+<div id="scanning" class="hidden">
+  <div class="scanner"></div>
+  <p>Scanning your food...</p>
+</div>
+
 <body>
   <header class="site-header">
     <div class="container header-inner">
@@ -26,7 +32,7 @@
       <nav aria-label="Main">
         <a href="#" class="nav-link">Home</a>
         <a href="#" class="nav-link">About</a>
-        <a href="#" class="nav-link">Contact</a>   
+        
         <button id="login-trigger-btn" class="btn">Log in</button>
 
       </nav>
@@ -37,10 +43,23 @@
     <!-- Input row -->
     <section class="input-row" aria-label="Add ingredients">
       <label class="visually-hidden" for="ingredient-input">Ingredient</label>
+      
+     
       <input id="ingredient-input" type="text" placeholder="Type your ingredient..." autocomplete="off" />
+        <!-- put the camera in the search box -->
+      <button id="camera-btn" class="btn" aria-label="photo/upload">Scan</button>
+      <input id="camera-input" type="file" accept="image/*" capture="environment" hidden />
+      
       <button id="add-btn" class="btn">Add</button>
     </section>
 
+          <!-- Recognition Results -->
+      <div id="recognition-results" class="recognition-results hidden" aria-label="recognized-result">
+        <h3>We found these ingredients:</h3>
+        <div id="result-list"></div>
+        <button id="add-selected-btn" class="btn btn-primary">Add Selected</button>
+      </div>
+      
     <!-- Plate -->
     <section id="plate-section" class="plate-section" aria-label="Ingredient plate">
       <!-- Inline SVG plate (no external asset needed) -->
@@ -95,15 +114,15 @@
       <button id="close-modal-btn" class="modal-close-btn" aria-label="Close login form">&times;</button>
       
       <form id="login-form">
-        <h2 class="modal-title">Wellcome！ </h2>
+        <h2 class="modal-title">Welcome! </h2>
         
         <div class="form-group">
-          <label for="email-input">Email：</label>
+          <label for="email-input">Email:</label>
           <input id="email-input" type="email" placeholder="you@example.com" required autocomplete="email">
         </div>
         
         <div class="form-group">
-          <label for="password-input">Password：</label>
+          <label for="password-input">Password:</label>
           <input id="password-input" type="password" placeholder="Please enter your password" required autocomplete="current-password">
         </div>
         
