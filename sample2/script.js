@@ -308,47 +308,46 @@ async function fetchRecipes() {
 
 
 
-
 // =======================================================
-// ===== 新增：登录模态框 (Modal) 控制逻辑 =====
+// ===== New: Login Modal (Modal) Control Logic =====
 // =======================================================
 
-// 首先，获取需要操作的 HTML 元素
-const loginModal = document.getElementById('login-modal'); // 整个模态框（灰色背景）
-const loginTriggerBtn = document.getElementById('login-trigger-btn'); // 导航栏的“登录”按钮
-const closeModalBtn = document.getElementById('close-modal-btn'); // 模态框右上角的关闭按钮 (×)
+// First, get the HTML elements that need to be manipulated
+const loginModal = document.getElementById('login-modal'); // The entire modal (gray background)
+const loginTriggerBtn = document.getElementById('login-trigger-btn'); // The "Login" button in the navigation bar
+const closeModalBtn = document.getElementById('close-modal-btn'); // The close button (×) in the top-right of the modal
 
-// --- 函数：打开模态框 ---
-// 定义一个函数，用于显示模态框
+// --- Function: Open Modal ---
+// Define a function to show the modal
 function openModal() {
-  // 移除模态框的 'hidden' 类，CSS中这个类通常设置为 display: none;
-  loginModal.classList.remove('hidden'); 
+  // Remove the 'hidden' class from the modal; this class is typically set to display: none; in CSS
+  loginModal.classList.remove('hidden'); 
 }
 
-// --- 函数：关闭模态框 ---
-// 定义一个函数，用于隐藏模态框
+// --- Function: Close Modal ---
+// Define a function to hide the modal
 function closeModal() {
-  // 为模态框添加 'hidden' 类，将其隐藏
-  loginModal.classList.add('hidden');
+  // Add the 'hidden' class to the modal to hide it
+  loginModal.classList.add('hidden');
 }
 
-// --- 绑定事件监听器 ---
-// 1. 当用户点击导航栏的“登录”按钮时，调用 openModal 函数
+// --- Bind Event Listeners ---
+// 1. When the user clicks the "Login" button in the navigation bar, call the openModal function
 if (loginTriggerBtn) {
-  loginTriggerBtn.addEventListener('click', openModal);
+  loginTriggerBtn.addEventListener('click', openModal);
 }
 
-// 2. 当用户点击模态框的关闭按钮 (×) 时，调用 closeModal 函数
+// 2. When the user clicks the close button (×) in the modal, call the closeModal function
 if (closeModalBtn) {
-  closeModalBtn.addEventListener('click', closeModal);
+  closeModalBtn.addEventListener('click', closeModal);
 }
 
-// 3. (可选但推荐) 当用户点击模态框的灰色背景区域时，也关闭模态框
+// 3. (Optional but recommended) When the user clicks on the gray background area of the modal, also close the modal
 if (loginModal) {
-  loginModal.addEventListener('click', (event) => {
-    // 检查点击事件的目标是否是灰色背景本身 (而不是内部的表单)
-    if (event.target === loginModal) {
-      closeModal();
-    }
-  });
+  loginModal.addEventListener('click', (event) => {
+    // Check if the target of the click event is the gray background itself (and not the form inside)
+    if (event.target === loginModal) {
+      closeModal();
+    }
+  });
 }
