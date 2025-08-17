@@ -164,21 +164,21 @@ const ALLERGEN_MAP = {
 };
 
 
-// 过滤掉含有过敏原的食谱
+// Filter out recipes that contain allergens
 function filterByAllergens(recipes, allergens) {
   if (!allergens || allergens.length === 0) return recipes;
 
   return recipes.filter(recipe => {
-    // recipe 里需要有原料信息，如果你的 API 没返回 ingredients，要改 fetchRecipes
+    // Recipe must have ingredient info, if your API doesn't return ingredients, modify fetchRecipes
     if (!recipe.usedIngredients && !recipe.missedIngredients) return true;
 
-    // 把所有原料合并成一个字符串（方便匹配）
+    // Merge all ingredients into one array (for easier matching)
     const allIngredients = [
       ...(recipe.usedIngredients || []),
       ...(recipe.missedIngredients || [])
     ].map(i => i.name.toLowerCase());
 
-    // 如果含有任意一个过敏原，则剔除
+    // If it contains any allergen, exclude it
     return !allergens.some(allergen => {
       const allergenLower = allergen.toLowerCase();
       const keywords = ALLERGEN_MAP[allergenLower] || [allergenLower];
@@ -226,7 +226,7 @@ document.getElementById("generate-btn").addEventListener("click", async () => {
             missedIngredients: item.missedIngredients 
         }));
 
-        // 先过滤过敏原 filter first
+        // Filter out allergens first
         recipes = filterByAllergens(recipes, selectedAllergens);
         displayRecipes();
         document.getElementById("pagination").classList.remove("hidden");
@@ -360,12 +360,12 @@ const recognitionDiv = document.getElementById("recognition-results");
 const resultList = document.getElementById("result-list");
 const addSelectedBtn = document.getElementById("add-selected-btn");
 
-// 点击 Scan 按钮 → 打开上传
+// Click Scan button → open upload
 cameraBtn.addEventListener("click", () => {
   cameraInput.click();
 });
 
-// 文件选择后触发
+// Triggered after file selection
 cameraInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -378,7 +378,7 @@ cameraInput.addEventListener("change", async (e) => {
     body: formData,
   });
 
-  // 显示扫描动画
+  // Show scanning animation
   scanningDiv.classList.remove("hidden");
 
   const data = await res.json();
@@ -389,20 +389,20 @@ cameraInput.addEventListener("change", async (e) => {
 
 
 
-  // ===== mock: 模拟识别（后端可替换这里） =====
-  // TODO: 替换成 fetch("/scan", {method:"POST",body:formData})
+  // ===== mock: simulate recognition (backend can replace this) =====
+  // TODO: replace with fetch("/scan", {method:"POST",body:formData})
   setTimeout(() => {
     scanningDiv.classList.add("hidden");
 
-  //   // 假装识别出来的食材
+  //   // Pretend recognized ingredients
   //   const mockResults = ["Tomato", "Cheese", "Bread"];
 
-    // 显示识别结果
+    // Show recognition results
     showRecognitionResults(data.ingredients);
   }, 2000);
 });
 
-// 展示识别结果
+// Display recognition results
 function showRecognitionResults(items) {
   resultList.innerHTML = "";
   items.forEach(item => {
@@ -419,7 +419,7 @@ function showRecognitionResults(items) {
   recognitionDiv.classList.remove("hidden");
 }
 
-// 把选中的加入 Plate
+// Add selected ingredients to Plate
 addSelectedBtn.addEventListener("click", async () => {
   const selected = [...document.querySelectorAll("#result-list input:checked")]
     .map(input => input.value);
@@ -432,14 +432,14 @@ addSelectedBtn.addEventListener("click", async () => {
 });
 
 document.addEventListener('click', function(event) {
-  // 获取过滤面板元素和餐刀按钮元素
+  // Get filter panel element and knife button element
   const filterPanel = document.getElementById('filterPanel');
   const filterKnife = document.querySelector('.filter-knife');
   
-  // 检查点击的目标元素
+  // Check clicked target element
   if (!filterPanel.contains(event.target) && !filterKnife.contains(event.target)) {
-    // 如果点击的不是过滤面板内部，也不是餐刀按钮
-    filterPanel.classList.remove('active'); // 移除active类，关闭面板
+    // If click is neither inside filter panel nor on knife button
+    filterPanel.classList.remove('active'); // Remove active class, close panel
   }
 });
 
@@ -449,12 +449,12 @@ document.addEventListener('click', function(event) {
 
     let selectedAllergens = [];
 
-    // 点击绳子 → 打开便签
+    // Click rope → open note
     rope.addEventListener('click', () => {
       panel.classList.add('active');
     });
 
-    // 点击确认 → 收回并记录
+    // Click confirm → close and record
     confirmBtn.addEventListener('click', () => {
       const checkboxes = panel.querySelectorAll('input[type=checkbox]');
       selectedAllergens = [];
@@ -462,11 +462,11 @@ document.addEventListener('click', function(event) {
         if (cb.checked) selectedAllergens.push(cb.value);
       });
 
-      console.log("过滤掉这些过敏原：", selectedAllergens);
+      console.log("Filter out these allergens:", selectedAllergens);
 
       panel.classList.remove('active');
-      // 这里你可以把 selectedAllergens 传递给搜索逻辑
-      displayRecipes(); // 重新刷新，应用过滤
+      // Here you can pass selectedAllergens to search logic
+      displayRecipes(); // Refresh and apply filter
     });
 
 
@@ -478,15 +478,15 @@ document.addEventListener('click', function(event) {
         
         setTimeout(() => {
             loading.classList.add('hidden');
-        }, 600); // 匹配CSS过渡时间
-    }, 1200); // 最小显示时间
+        }, 600); // Match CSS transition duration
+    }, 1200); // Minimum display time
 });
 
 
 const foods = ["🍎","🥑","🍔","🍕","🍣","🍤","🥗","🥖","🍜","🍩","🍓","🥕","🥟","🧁","🍇","🍪"];
 const foodBg = document.getElementById("food-bg");
 
-// 随机摆放食物背景
+// Randomly place food background
 for (let i=0; i<30; i++) {
   const f = document.createElement("div");
   f.className = "food-item";

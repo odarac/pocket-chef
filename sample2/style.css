@@ -357,7 +357,7 @@
   100% { top: 100%; }
 }
 
-/* 识别结果 */
+/* Recognition Results */
 #recognition-results {
   margin: 20px 0;
   padding: 10px;
@@ -379,50 +379,50 @@
   transition: all 0.3s ease;
   z-index: 20;
   margin-top: 80px;
-  /* 添加相对定位作为子元素的参照 */
+  /* Add relative positioning as a reference for child elements */
   position: fixed;
 }
 
-/* 雪糕棍部分（左半部分） */
+/* Ice cream stick part (left half) */
 .filter-knife::before {
   content: '';
   position: absolute;
   left: 0;
   top: 0;
-  width: 40px;  /* 调整棍子宽度 */
+  width: 40px;  /* Adjust stick width */
   height: 60px;
   background: #5d9259;
   border-radius: 0 8px 8px 0;
   z-index: 1;
 }
 
-/* 雪糕部分（右半部分） */
+/* Ice cream part (right half) */
 .filter-knife::after {
   content: '';
   position: absolute;
-  left: 20px;  /* 紧贴棍子右侧 */
+  left: 20px;  /* Right next to the stick */
   top: 0;
-  width: 50px;  /* 调整雪糕宽度 */
+  width: 50px;  /* Adjust the width of the ice cream */
   height: 60px;
   background: #df6853;
-  /* 更平滑的波浪边缘 */
+  /* Smoother wavy edges */
   clip-path: polygon(
-    0 0,       /* 左上角 */
-    0 15%,     /* 开始波浪 */
+    0 0,       /* Top left corner */
+    0 15%,     /* Start of the wave */
     15% 30%,
     0 45%,
     15% 60%,
     0 75%,
     15% 90%,
-    0 100%,    /* 左下角 */
-    100% 100%, /* 右下角 */
-    100% 0     /* 右上角 */
+    0 100%,    /* Bottom left corner */
+    100% 100%, /* Bottom right corner */
+    100% 0     /* Top right corner */
   );
   border-radius: 0 8px 8px 0;
   z-index: 2;
 }
 
-/* 巧克力豆装饰 */
+/* chocolate bean decoration */
 .filter-knife .chocolate-chip {
   position: absolute;
   width: 8px;
@@ -432,17 +432,17 @@
   z-index: 3;
 }
 
-/* 巧克力豆位置调整 */
+/* Adjustment of chocolate chip position */
 .filter-knife .chip1 { left: 40px; top: 15px; }
 .filter-knife .chip2 { left: 50px; top: 30px; }
 .filter-knife .chip3 { left: 45px; top: 45px; }
 
-/* 整体悬停动画 */
+/* Overall hover animation */
 .filter-knife:hover {
   transform: translateX(5px) rotate(-2deg);
 }
 
-/* 波浪部分的微动效果 */
+/* Micro-motion effect of the wave part */
 .filter-knife:hover::after {
   animation: wave 0.8s ease-in-out infinite;
 }
@@ -581,7 +581,7 @@
 
 
 /* animations */
-/* 加载文字动画 */
+/* Load text animation */
 #loading p {
     font-size: 1.2rem;
     color: var(--primary);
@@ -604,18 +604,18 @@
 }
 
 
-/* 主内容入场动画 */
+/* Main content entrance animation */
 .container {
     animation: contentFadeIn 1s ease-out forwards;
     opacity: 0;
-    animation-delay: 0.8s; /* 等待加载动画完成 */
+    animation-delay: 0.8s; /* Wait for the loading animation to complete */
 }
 
 @keyframes contentFadeIn {
     to { opacity: 1; }
 }
 
-/* 头部特殊动画 */
+/* Head special animation */
 .site-header {
     animation: headerSlideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     transform: translateY(-100%);
@@ -625,13 +625,13 @@
     to { transform: translateY(0); }
 }
 
-/* 按钮和卡片元素动画 */
+/* Button and card element animations */
 .btn, .recipe-card, .plate {
     opacity: 0;
     animation: fadeInUp 0.6s ease-out forwards;
 }
 
-/* 交错动画延迟 */
+/* Staggered animation delay */
 .btn { animation-delay: 1s; }
 .recipe-card { 
     animation-delay: 1.2s; 
@@ -684,7 +684,7 @@
 
 
 
-/* 食物背景容器 */
+/* food background container */
 .food-bg {
   position: fixed;
   inset: 0;
@@ -703,7 +703,7 @@
   transform: scale(1.4) rotate(10deg);
 }
 
-/* 漂浮动画 */
+/* floating animation */
 @keyframes floatAnim {
   0% { transform: translateY(0px) rotate(0deg); }
   50% { transform: translateY(-20px) rotate(10deg); }
