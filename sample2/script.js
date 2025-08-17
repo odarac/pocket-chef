@@ -518,3 +518,28 @@ btn.addEventListener("click", () => {
     origin: { x: 0.5, y: 0.5 } // screeen center
   });
 });
+
+
+// Store the last generated ingredients
+let lastGeneratedIngredients = [];
+
+// Left button → suggest random food
+document.getElementById("today-food-btn").addEventListener("click", () => {
+  const options = ["🍕 Pizza", "🍣 Sushi", "🥗 Salad", "🍔 Burger", "🍝 Pasta", "🥟 Dumplings", "🍤 Tempura"];
+  const randomFood = options[Math.floor(Math.random() * options.length)];
+  alert("Today's suggestion: " + randomFood);
+});
+
+// Right button → show last generated ingredients
+document.getElementById("last-ingredient-btn").addEventListener("click", () => {
+  if (lastGeneratedIngredients.length === 0) {
+    alert("No ingredients have been generated yet.");
+  } else {
+    alert("Last generated ingredients: " + lastGeneratedIngredients.join(", "));
+  }
+});
+
+// Save ingredients when "generate" button is clicked
+document.getElementById("generate-btn").addEventListener("click", () => {
+  lastGeneratedIngredients = [...ingredients];
+});

@@ -726,3 +726,45 @@
 
 
 
+/* Container for both buttons */
+.plate-buttons {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -100px; /* move buttons closer to the plate */
+  z-index: 10; /* make sure buttons are above the plate */
+  pointer-events: none; /* so plate interaction is not blocked */
+}
+
+/* Base style for cute round buttons */
+.cute-btn {
+  pointer-events: auto; /* allow button clicks */
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  background: #fff8e1;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease;
+  z-index: 20;
+}
+
+/* Hover effect: scale, rotate and wiggle */
+.cute-btn:hover {
+  transform: scale(1.2) rotate(10deg);
+  animation: wiggle 0.3s ease-in-out infinite alternate;
+}
+
+/* Wiggle animation */
+@keyframes wiggle {
+  from { transform: scale(1.2) rotate(-10deg); }
+  to   { transform: scale(1.2) rotate(10deg); }
+}
+
+/* Left and right spacing */
+.left-btn { margin-left: 40px; }
+.rig
