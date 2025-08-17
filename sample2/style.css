@@ -713,7 +713,15 @@
 
 
 
-
+#confetti-canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 999999 !important;  /* ensure the highest */
+  pointer-events: none; /* ensure the click  */
+}
 
 
 

@@ -495,3 +495,26 @@ for (let i=0; i<30; i++) {
   f.style.top = Math.random()*100 + "vh";
   foodBg.appendChild(f);
 }
+
+
+
+// create canvas
+let confettiCanvas = document.createElement("canvas");
+confettiCanvas.id = "confetti-canvas";
+document.body.appendChild(confettiCanvas);
+
+// initialize confetti
+let myConfetti = confetti.create(confettiCanvas, {
+  resize: true, // auto adjust the window
+  useWorker: true
+});
+
+const btn = document.getElementById("guide-trigger-btn");
+
+btn.addEventListener("click", () => {
+  myConfetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { x: 0.5, y: 0.5 } // screeen center
+  });
+});
