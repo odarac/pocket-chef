@@ -7,9 +7,6 @@ import cors from "cors";
 import path from "path";
 import dotenv from 'dotenv';
 import { fileURLToPath } from "url";
-import Database from "better-sqlite3";
-import { Model } from "clarifai-nodejs";
-
 
 dotenv.config();
 
